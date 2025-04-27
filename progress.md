@@ -36,5 +36,7 @@
 
 *   [x] Lisätty perus-footer (`index.html`).
 *   [x] Parannettu responsiivisuutta CSS-mediakyselyillä (`style.css`).
-*   [ ] Lisätty selkeämpi visuaalinen palaute navigaatiossa (esim. aktiivinen tila).
+*   [x] Lisätty selkeämpi visuaalinen palaute navigaatiossa (aktiivinen tila).
+*   [x] Parannettu ahdistusnapin painalluksen visuaalista palautetta (animaatio/väri).
+*   [x] Lisätty viimeisimmän kirjauksen aikaleiman näyttö nappinäkymään.
 *   [ ] Harkittu muita UI/UX-parannuksia (esim. latausindikaattori, tyhjän tilan käsittely).

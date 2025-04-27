@@ -9,11 +9,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttonView = document.getElementById('button-view');
     const statsView = document.getElementById('stats-view');
     const anxietyChartCanvas = document.getElementById('anxietyChart');
+    const lastPressInfoDiv = document.getElementById('last-press-info'); // Get the new div
     let chartInstance = null; // To hold the chart object
     const filterButtons = document.querySelectorAll('.filter-button');
     const chartTypeButtons = document.querySelectorAll('.chart-type-button'); // Get chart type buttons
     let currentFilterRange = 'all'; // Default filter
     let currentChartType = 'timeline'; // Default chart type
+
+    // Function to format timestamp for display
+    const formatTimestampForDisplay = (isoTimestamp) => {
+        const date = new Date(isoTimestamp);
+        const time = date.toLocaleTimeString('fi-FI', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const day = date.toLocaleDateString('fi-FI', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        return `${time} ${day}`;
+    };
+
+    // Function to update the last press info display
+    const updateLastPressInfo = (entry) => {
+        if (lastPressInfoDiv && entry) {
+            lastPressInfoDiv.textContent = `Viimeisin kirjaus: ${entry.type} klo ${formatTimestampForDisplay(entry.timestamp)}`;
+        } else if (lastPressInfoDiv) {
+            lastPressInfoDiv.textContent = 'Ei kirjauksia vielä.';
+        }
+    };
+
+    // Function to load the last entry and update display
+    const loadLastEntry = () => {
+        const storedEntries = localStorage.getItem(storageKey);
+        if (storedEntries) {
+            try {
+                const entries = JSON.parse(storedEntries);
+                if (Array.isArray(entries) && entries.length > 0) {
+                    // Assuming entries are pushed, the last one is the latest
+                    updateLastPressInfo(entries[entries.length - 1]);
+                } else {
+                     updateLastPressInfo(null); // Handle empty or invalid data
+                }
+            } catch (e) {
+                console.error("Error parsing stored data for last entry:", e);
+                updateLastPressInfo(null);
+            }
+        } else {
+            updateLastPressInfo(null); // No stored data
+        }
+    };
+
 
     // Function to save entry to Local Storage
     const saveEntry = (type) => {
@@ -45,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             localStorage.setItem(storageKey, JSON.stringify(entries));
             console.log(`Entry saved: Type=${type}, Timestamp=${timestamp}`);
+            updateLastPressInfo(newEntry); // Update display with the new entry
             // Optional: Add visual feedback here later
         } catch (e) {
             console.error("Error saving data to Local Storage:", e);
@@ -60,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 saveEntry(type);
                 // Simple visual feedback: temporary class change
                 button.classList.add('clicked');
-                setTimeout(() => button.classList.remove('clicked'), 200); // Remove after 200ms
+                setTimeout(() => button.classList.remove('clicked'), 150); // Shorten duration for snappier feel
             } else {
                 console.error("Button is missing data-type attribute:", button);
             }
@@ -282,11 +323,15 @@ document.addEventListener('DOMContentLoaded', () => {
         navButtons.addEventListener('click', () => {
             buttonView.style.display = 'block';
             statsView.style.display = 'none';
+            navButtons.classList.add('active'); // Set Nappulat active
+            navStats.classList.remove('active'); // Remove active from Tilastot
         });
 
         navStats.addEventListener('click', () => {
             buttonView.style.display = 'none';
             statsView.style.display = 'block';
+            navButtons.classList.remove('active'); // Remove active from Nappulat
+            navStats.classList.add('active'); // Set Tilastot active
             // Load/render stats when the view is shown (will use current filter)
             renderChart();
         });
@@ -294,6 +339,9 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("Navigation elements or views not found.");
     }
 
-    // Initial setup: Ensure default buttons are marked active (already done in HTML)
+    // Initial setup:
+    loadLastEntry(); // Load and display the last entry time on page load
+    // Ensure default buttons are marked active (HTML sets defaults, JS confirms nav state)
+    // The default view is 'button-view', so ensure navButtons is active initially (done via HTML class now)
 
 }); // End of DOMContentLoaded

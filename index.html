@@ -14,7 +14,7 @@
     <header>
         <nav>
             <!-- Navigaatio tulee tähän -->
-            <button id="nav-buttons">Nappulat</button>
+            <button id="nav-buttons" class="active">Nappulat</button> <!-- Add active class -->
             <button id="nav-stats">Tilastot</button>
         </nav>
     </header>
@@ -22,6 +22,7 @@
     <main>
         <section id="button-view">
             <h1>Ahdistusnappulat</h1>
+            <div id="last-press-info" style="margin-bottom: 15px; color: #555;"></div> <!-- Added element for timestamp -->
             <!-- Ahdistusnapit tulevat tähän -->
             <button class="anxiety-button" data-type="KOULU">KOULU AHDISTAA</button>
             <button class="anxiety-button" data-type="VANHEMMAT">VANHEMMAT AHDISTAA</button>

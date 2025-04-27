@@ -30,7 +30,8 @@ body {
 
 .anxiety-button:active, .anxiety-button.clicked { /* Apply active styles also to clicked */
     transform: scale(0.98); /* Slight shrink effect on click */
-    background-color: #b30000; /* Slightly darker red on click */
+    background-color: #ff4d4d; /* Brighter red on click for feedback */
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Optional: add a glow */
 }
 
 /* Style for the navigation buttons */
@@ -46,6 +47,13 @@ nav button {
 
 nav button:hover {
     background-color: #e0e0e0;
+}
+
+/* Style for the active navigation button */
+nav button.active {
+    background-color: #d0d0d0;
+    font-weight: bold;
+    border-color: #bbb;
 }
 
 /* Style for the canvas container */
