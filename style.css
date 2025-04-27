@@ -57,10 +57,15 @@ nav button:hover {
 
 /* Style for filter controls */
 #filter-controls {
+    margin-bottom: 10px; /* Adjusted margin */
+}
+
+/* Style for chart type controls */
+#chart-type-controls {
     margin-bottom: 20px;
 }
 
-.filter-button {
+.filter-button, .chart-type-button { /* Apply common styles */
     margin: 0 5px;
     padding: 8px 12px;
     font-size: 0.9em;
@@ -70,12 +75,19 @@ nav button:hover {
     border-radius: 5px;
 }
 
-.filter-button:hover {
+.filter-button:hover, .chart-type-button:hover { /* Apply common styles */
     background-color: #e0e0e0;
 }
 
-.filter-button.active {
+.filter-button.active, .chart-type-button.active { /* Apply common styles */
     background-color: #d0d0d0;
     font-weight: bold;
     border-color: #bbb;
+}
+
+/* Add some spacing for the labels */
+#filter-controls span, #chart-type-controls span {
+    margin-right: 10px;
+    font-size: 0.9em;
+    color: #555;
 }

@@ -29,4 +29,5 @@
     *   [x] Graafin piirtäminen Chart.js:llä (pylväsdiagrammi).
 *   [x] Parannettu graafin visualisointia (aikajananäkymä: painallukset per päivä).
 *   [x] Parannettu graafin visualisointia (suodatusmahdollisuus aikavälille).
+*   [x] Lisätty mahdollisuus vaihtaa graafin tyyppiä (aikajana / tyypeittäin).
 *   [x] Lisätty mahdollinen tekstimuotoinen yhteenveto tilastoista.

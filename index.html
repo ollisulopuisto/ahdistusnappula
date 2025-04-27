@@ -35,9 +35,16 @@
             <h1>Tilastot</h1>
             <!-- Add Filter Controls -->
             <div id="filter-controls">
+                <span>Aikaväli:</span>
                 <button class="filter-button" data-range="7">Viimeiset 7 pv</button>
                 <button class="filter-button" data-range="30">Viimeiset 30 pv</button>
                 <button class="filter-button active" data-range="all">Kaikki</button> <!-- Default active -->
+            </div>
+            <!-- Add Chart Type Controls -->
+            <div id="chart-type-controls" style="margin-top: 10px;">
+                 <span>Näkymä:</span>
+                <button class="chart-type-button active" data-chart-type="timeline">Aikajana</button> <!-- Default active -->
+                <button class="chart-type-button" data-chart-type="byType">Tyypeittäin</button>
             </div>
             <!-- Tilastograafi tulee tähän -->
             <canvas id="anxietyChart"></canvas>
