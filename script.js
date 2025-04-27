@@ -97,6 +97,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const labels = Object.keys(countsByType);
         const data = Object.values(countsByType);
 
+        // --- Calculate and display text summary ---
+        const totalEntries = data.reduce((sum, count) => sum + count, 0);
+        const statsSummaryDiv = document.getElementById('stats-summary');
+        if (statsSummaryDiv) {
+            statsSummaryDiv.textContent = `Yhteensä ${totalEntries} ahdistuspainallusta kirjattu.`;
+        } else {
+            console.warn("Stats summary div not found.");
+        }
+        // --- End of text summary ---
+
+
         // Destroy previous chart instance if it exists
         if (chartInstance) {
             chartInstance.destroy();
