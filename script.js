@@ -184,23 +184,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function giveVisualFeedback(buttonElement) {
          if (!buttonElement) return;
          // Use CSS variables for colors
-         const originalColor = getComputedStyle(buttonElement).backgroundColor;
          const feedbackColor = getComputedStyle(document.documentElement).getPropertyValue('--secondary-color').trim();
 
+         // Apply styles directly for the feedback effect
          buttonElement.style.backgroundColor = feedbackColor;
-         // Add a subtle animation (optional)
-         buttonElement.style.transform = 'scale(0.95)';
-         buttonElement.style.transition = 'transform 0.1s ease-in-out, background-color 0.1s ease-in-out';
+         buttonElement.style.transform = 'scale(0.92)'; // Match CSS active scale
 
-
+         // Revert styles after the animation duration
          setTimeout(() => {
             buttonElement.style.backgroundColor = ''; // Revert color (back to CSS rule)
             buttonElement.style.transform = ''; // Revert transform
-            // Remove transition override after animation is done
-             setTimeout(() => {
-                 buttonElement.style.transition = '';
-             }, 150);
-        }, 150); // Duration of the feedback effect
+        }, 300); // Match the updated CSS transition duration (0.3s = 300ms)
     }
 
 
@@ -459,28 +453,30 @@ document.addEventListener('DOMContentLoaded', () => {
                         },
                         title: {
                             display: true,
-                            text: 'Aika'
+                            text: 'Aika',
+                            color: textColor // Set title color
                         },
-                        ticks: { color: 'var(--text-color)' }, // Style ticks
-                        grid: { color: 'var(--border-color)' } // Style grid lines
+                        ticks: { color: textColor }, // Style ticks
+                        grid: { color: borderColor } // Style grid lines
                     },
                     y: {
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Painallusten määrä'
+                            text: 'Painallusten määrä',
+                            color: textColor // Set title color
                         },
                          ticks: {
-                            color: 'var(--text-color)',
+                            color: textColor,
                             stepSize: 1 // Ensure integer steps for counts
                         },
-                        grid: { color: 'var(--border-color)' }
+                        grid: { color: borderColor }
                     }
                 },
                 plugins: {
                     legend: {
                         position: 'top',
-                        labels: { color: 'var(--text-color)' } // Style legend
+                        labels: { color: textColor } // Style legend
                     },
                     tooltip: {
                         mode: 'index',
@@ -494,7 +490,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
                                 return '';
                             }
-                        }
+                        },
+                        titleColor: textColor, // Set tooltip title color
+                        bodyColor: textColor, // Set tooltip body color
                     }
                 },
                  interaction: { // Improve hover interaction
@@ -569,7 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 plugins: {
                     legend: {
                         position: 'top',
-                         labels: { color: 'var(--text-color)' }
+                         labels: { color: textColor } // Style legend
                     },
                     tooltip: {
                         callbacks: {
@@ -586,7 +584,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                 label += ` (${percentage})`;
                                 return label;
                             }
-                        }
+                        },
+                        titleColor: textColor, // Set tooltip title color
+                        bodyColor: textColor, // Set tooltip body color
                     }
                 }
             }

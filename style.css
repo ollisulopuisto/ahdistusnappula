@@ -1,6 +1,6 @@
 :root {
     --background-color: #1a1a1a; /* Dark background */
-    --text-color: #e0e0e0; /* Light text */
+    --text-color: #f0f0f0; /* Lighter text for better contrast */
     --primary-color: #bb86fc; /* Purple accent */
     --secondary-color: #03dac6; /* Teal accent */
     --button-bg: #333;
@@ -8,7 +8,7 @@
     --nav-active-bg: var(--primary-color);
     --nav-active-text: #000;
     --card-bg: #2c2c2c; /* Slightly lighter background for cards/sections */
-    --border-color: #444;
+    --border-color: #555; /* Slightly lighter border for better visibility */
 }
 
 body {
@@ -97,7 +97,8 @@ h2 {
     font-size: 1.1em; /* Slightly larger font */
     font-weight: bold;
     text-transform: uppercase; /* Uppercase text */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* Increase transition duration for animation */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     text-align: center;
 }
@@ -108,7 +109,7 @@ h2 {
 }
 
 .anxiety-button:active {
-    transform: translateY(0);
+    transform: scale(0.92); /* Make the press effect more noticeable */
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -154,7 +155,7 @@ h2 {
 #anxietyChart {
     max-height: 400px; /* Limit chart height */
     margin-top: 20px;
-    background-color: #333; /* Slightly different bg for chart area */
+    /* background-color: #333; */ /* Remove specific background or adjust */
     border-radius: 5px;
     padding: 10px;
 }
@@ -250,5 +251,13 @@ footer {
     text-align: center;
     font-size: 0.9em;
     color: #aaa; /* Lighter footer text */
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color); /* Use updated border color */
+}
+
+/* Explicitly style chart scales and legend if needed */
+.chartjs-legend-item-text,
+.chartjs-tooltip-body,
+.chartjs-tooltip-title,
+.tick { /* Target Chart.js text elements more specifically if needed */
+    color: var(--text-color) !important; /* Use !important if overrides are necessary */
 }
