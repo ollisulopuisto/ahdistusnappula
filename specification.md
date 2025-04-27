@@ -1,4 +1,4 @@
-# Ahdistusnappula Sovelluksen Määrittely
+# Ahdistusnappula-sovelluksen määrittely
 
 ## 1. Tavoite
 

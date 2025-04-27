@@ -1,0 +1,13 @@
+/* Tyylit tulevat tähän */
+body {
+    font-family: sans-serif;
+}
+
+nav button {
+    margin: 5px;
+    padding: 10px;
+}
+
+#button-view, #stats-view {
+    padding: 20px;
+}
