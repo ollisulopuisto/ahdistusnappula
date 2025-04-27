@@ -28,5 +28,5 @@
     *   [x] Datan prosessointi (esim. lukumäärät tyypeittäin).
     *   [x] Graafin piirtäminen Chart.js:llä (pylväsdiagrammi).
 *   [x] Parannettu graafin visualisointia (aikajananäkymä: painallukset per päivä).
-*   [ ] Parannettu graafin visualisointia (suodatusmahdollisuus).
+*   [x] Parannettu graafin visualisointia (suodatusmahdollisuus aikavälille).
 *   [x] Lisätty mahdollinen tekstimuotoinen yhteenveto tilastoista.

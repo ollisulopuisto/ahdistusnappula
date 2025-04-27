@@ -33,6 +33,12 @@
 
         <section id="stats-view" style="display: none;">
             <h1>Tilastot</h1>
+            <!-- Add Filter Controls -->
+            <div id="filter-controls">
+                <button class="filter-button" data-range="7">Viimeiset 7 pv</button>
+                <button class="filter-button" data-range="30">Viimeiset 30 pv</button>
+                <button class="filter-button active" data-range="all">Kaikki</button> <!-- Default active -->
+            </div>
             <!-- Tilastograafi tulee tähän -->
             <canvas id="anxietyChart"></canvas>
             <div id="stats-summary"></div> <!-- Optional: For text summary -->

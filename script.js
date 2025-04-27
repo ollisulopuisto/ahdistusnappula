@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const statsView = document.getElementById('stats-view');
     const anxietyChartCanvas = document.getElementById('anxietyChart');
     let chartInstance = null; // To hold the chart object
+    const filterButtons = document.querySelectorAll('.filter-button');
+    let currentFilterRange = 'all'; // Default filter
 
     // Function to save entry to Local Storage
     const saveEntry = (type) => {
@@ -65,22 +67,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to load data and render the chart
     const renderChart = () => {
-        console.log("Attempting to render chart...");
+        console.log(`Attempting to render chart with filter: ${currentFilterRange}`);
         const storedEntries = localStorage.getItem(storageKey);
-        let entries = [];
+        let allEntries = []; // Rename to avoid confusion with filtered entries
         if (storedEntries) {
             try {
-                entries = JSON.parse(storedEntries);
-                if (!Array.isArray(entries)) entries = [];
-                // Ensure timestamps are Date objects for sorting
-                entries.forEach(entry => entry.timestamp = new Date(entry.timestamp));
-                // Sort entries by date
-                entries.sort((a, b) => a.timestamp - b.timestamp);
+                allEntries = JSON.parse(storedEntries);
+                if (!Array.isArray(allEntries)) allEntries = [];
+                // Ensure timestamps are Date objects
+                allEntries.forEach(entry => entry.timestamp = new Date(entry.timestamp));
             } catch (e) {
                 console.error("Error parsing stored data for chart:", e);
-                entries = [];
+                allEntries = [];
             }
         }
+
+        // --- Filter entries based on currentFilterRange ---
+        const now = new Date();
+        const filteredEntries = allEntries.filter(entry => {
+            if (currentFilterRange === 'all') {
+                return true;
+            }
+            const days = parseInt(currentFilterRange, 10);
+            const cutoffDate = new Date(now);
+            cutoffDate.setDate(now.getDate() - days);
+            // Ensure entry.timestamp is valid before comparing
+            return entry.timestamp instanceof Date && !isNaN(entry.timestamp) && entry.timestamp >= cutoffDate;
+        });
+
+        // Sort the filtered entries by date
+        filteredEntries.sort((a, b) => a.timestamp - b.timestamp);
+        // --- End filtering ---
+
 
         if (!anxietyChartCanvas) {
             console.error("Canvas element not found!");
@@ -92,10 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // --- Chart Data Preparation (Timeline: Count per Day) ---
-        const countsPerDay = entries.reduce((acc, entry) => {
-            // Use toLocaleDateString for consistent local date formatting (YYYY-MM-DD might vary)
-            // Or use a library like date-fns format(entry.timestamp, 'yyyy-MM-dd') if more precision needed
+        // --- Chart Data Preparation (Timeline: Count per Day from filteredEntries) ---
+        const countsPerDay = filteredEntries.reduce((acc, entry) => {
             const day = entry.timestamp.toISOString().split('T')[0]; // Get YYYY-MM-DD
             acc[day] = (acc[day] || 0) + 1;
             return acc;
@@ -110,11 +126,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Sort data points by date (important for line chart)
         dataPoints.sort((a, b) => new Date(a.x) - new Date(b.x));
 
-        // --- Calculate and display text summary ---
-        const totalEntries = entries.length; // Simpler way to get total
+
+        // --- Calculate and display text summary (using filtered entries) ---
+        const totalFilteredEntries = filteredEntries.length;
         const statsSummaryDiv = document.getElementById('stats-summary');
         if (statsSummaryDiv) {
-            statsSummaryDiv.textContent = `Yhteensä ${totalEntries} ahdistuspainallusta kirjattu.`;
+            let filterText = "Kaikki";
+            if (currentFilterRange !== 'all') {
+                filterText = `Viimeiset ${currentFilterRange} päivää`;
+            }
+            statsSummaryDiv.textContent = `Yhteensä ${totalFilteredEntries} ahdistuspainallusta aikavälillä "${filterText}".`;
         } else {
             console.warn("Stats summary div not found.");
         }
@@ -133,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 data: {
                     // labels are not needed when data is {x, y} objects
                     datasets: [{
-                        label: 'Ahdistuspainallusten määrä päivittäin',
+                        label: `Ahdistuspainallusten määrä päivittäin (${currentFilterRange === 'all' ? 'Kaikki' : 'Viim. ' + currentFilterRange + ' pv'})`, // Update label
                         data: dataPoints, // Use the processed data points
                         fill: false, // Just the line
                         borderColor: 'rgb(255, 99, 132)', // Red line
@@ -171,11 +192,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     maintainAspectRatio: true // Adjust as needed
                 }
             });
-            console.log("Chart rendered successfully as a timeline.");
+            console.log("Chart rendered successfully with filter.");
         } catch(e) {
             console.error("Error creating chart:", e);
         }
     };
+
+    // --- Filter Button Logic ---
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to the clicked button
+            button.classList.add('active');
+            // Update the current filter range
+            currentFilterRange = button.getAttribute('data-range');
+            // Re-render the chart with the new filter
+            renderChart();
+        });
+    });
 
 
     // Navigation Logic
@@ -188,11 +223,15 @@ document.addEventListener('DOMContentLoaded', () => {
         navStats.addEventListener('click', () => {
             buttonView.style.display = 'none';
             statsView.style.display = 'block';
-            // Load/render stats when the view is shown
+            // Load/render stats when the view is shown (will use current filter)
             renderChart();
         });
     } else {
         console.error("Navigation elements or views not found.");
     }
+
+    // Initial setup: Ensure default filter button is marked active (already done in HTML)
+    // Optionally, render chart on initial load if stats view is default?
+    // Currently renders only when stats tab is clicked.
 
 }); // End of DOMContentLoaded

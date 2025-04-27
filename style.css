@@ -54,3 +54,28 @@ nav button:hover {
     height: auto;
     margin-top: 20px;
 }
+
+/* Style for filter controls */
+#filter-controls {
+    margin-bottom: 20px;
+}
+
+.filter-button {
+    margin: 0 5px;
+    padding: 8px 12px;
+    font-size: 0.9em;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.filter-button:hover {
+    background-color: #e0e0e0;
+}
+
+.filter-button.active {
+    background-color: #d0d0d0;
+    font-weight: bold;
+    border-color: #bbb;
+}
