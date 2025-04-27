@@ -117,6 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderButtonView() {
         anxietyButtonsContainer.innerHTML = ''; // Clear existing buttons
+
+        // Remove any existing cat overlays first
+        document.querySelectorAll('.cat-overlay').forEach(cat => cat.remove());
+
+        // Create and append buttons
         anxietyButtons.forEach(buttonData => {
             const button = document.createElement('button');
             button.className = 'anxiety-button';
@@ -125,7 +130,53 @@ document.addEventListener('DOMContentLoaded', () => {
             button.addEventListener('click', handleAnxietyButtonClick);
             anxietyButtonsContainer.appendChild(button);
         });
+
+        // --- Add Cat Logic ---
+        if (anxietyPresses.length > 0) {
+            // Calculate frequencies only for currently existing buttons
+            const existingButtonIds = new Set(anxietyButtons.map(b => b.id));
+            const counts = anxietyPresses.reduce((acc, press) => {
+                if (existingButtonIds.has(press.type)) { // Only count presses for buttons that still exist
+                    acc[press.type] = (acc[press.type] || 0) + 1;
+                }
+                return acc;
+            }, {});
+
+            let mostFrequentType = null;
+            let maxCount = 0;
+
+            for (const type in counts) {
+                if (counts[type] > maxCount) {
+                    maxCount = counts[type];
+                    mostFrequentType = type;
+                }
+            }
+
+            // Find the button element and add the cat
+            if (mostFrequentType) {
+                const targetButton = anxietyButtonsContainer.querySelector(`.anxiety-button[data-type="${mostFrequentType}"]`);
+                if (targetButton) {
+                    addCatToButton(targetButton);
+                }
+            }
+        }
+        // --- End Cat Logic ---
     }
+
+    function addCatToButton(buttonElement) {
+        const catOverlay = document.createElement('div');
+        catOverlay.className = 'cat-overlay';
+
+        const catImage = document.createElement('img');
+        catImage.className = 'cat-image';
+        // Using a placeholder kitten image - replace with your desired cat image URL
+        catImage.src = 'https://placekitten.com/g/50/50';
+        catImage.alt = 'Kissa'; // Alt text for accessibility
+
+        catOverlay.appendChild(catImage);
+        buttonElement.appendChild(catOverlay);
+    }
+
 
     function handleAnxietyButtonClick(event) {
         const type = event.target.dataset.type;
