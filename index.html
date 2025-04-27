@@ -13,23 +13,20 @@
 <body>
     <header>
         <nav>
-            <!-- Navigaatio tulee tähän -->
-            <button id="nav-buttons" class="active">Nappulat</button> <!-- Add active class -->
-            <button id="nav-stats">Tilastot</button>
+            <button id="nav-buttons" class="nav-button active">Nappulat</button> <!-- Updated class -->
+            <button id="nav-stats" class="nav-button">Tilastot</button> <!-- Updated class -->
+            <button id="nav-settings" class="nav-button">Asetukset</button> <!-- New Settings Nav -->
         </nav>
     </header>
 
     <main>
         <section id="button-view">
-            <h1>Ahdistusnappulat</h1>
-            <div id="last-press-info" style="margin-bottom: 15px; color: #555;"></div> <!-- Added element for timestamp -->
-            <!-- Ahdistusnapit tulevat tähän -->
-            <button class="anxiety-button" data-type="KOULU">KOULU AHDISTAA</button>
-            <button class="anxiety-button" data-type="VANHEMMAT">VANHEMMAT AHDISTAA</button>
-            <button class="anxiety-button" data-type="KAVERIT">KAVERIT AHDISTAA</button>
-            <button class="anxiety-button" data-type="AIKATAULUT">AIKATAULUT AHDISTAA</button>
-            <button class="anxiety-button" data-type="SIIVOAMINEN">SIIVOAMINEN AHDISTAA</button>
-            <button class="anxiety-button" data-type="MUU">MUU SYY AHDISTAA</button>
+            <!-- Heading updated to include username placeholder -->
+            <h1>Mikä ahdistaa, <span id="username-placeholder"></span>?</h1>
+            <div id="last-press-info" style="margin-bottom: 15px; color: #555;"></div>
+            <!-- Anxiety buttons will be dynamically generated here -->
+            <div id="anxiety-buttons-container"></div>
+            <!-- Removed hardcoded buttons -->
         </section>
 
         <section id="stats-view" style="display: none;">
@@ -50,6 +47,22 @@
             <!-- Tilastograafi tulee tähän -->
             <canvas id="anxietyChart"></canvas>
             <div id="stats-summary"></div> <!-- Optional: For text summary -->
+        </section>
+
+        <!-- New Settings View -->
+        <section id="settings-view" style="display: none;">
+            <h1>Asetukset</h1>
+            <h2>Muokkaa ahdistusnappuloita</h2>
+            <div id="button-editor">
+                <!-- Button list will be generated here -->
+            </div>
+            <div id="add-button-form">
+                <h3>Lisää uusi nappula</h3>
+                <input type="text" id="new-button-label" placeholder="Nappulan teksti (esim. KOULU)">
+                <button id="add-button">Lisää nappula</button>
+            </div>
+             <h2>Nimen vaihto</h2>
+             <button id="change-name-button">Vaihda käyttäjänimi</button>
         </section>
     </main>
 

@@ -1,153 +1,254 @@
-/* Tyylit tulevat tähän */
+:root {
+    --background-color: #1a1a1a; /* Dark background */
+    --text-color: #e0e0e0; /* Light text */
+    --primary-color: #bb86fc; /* Purple accent */
+    --secondary-color: #03dac6; /* Teal accent */
+    --button-bg: #333;
+    --button-hover-bg: #444;
+    --nav-active-bg: var(--primary-color);
+    --nav-active-text: #000;
+    --card-bg: #2c2c2c; /* Slightly lighter background for cards/sections */
+    --border-color: #444;
+}
+
 body {
-    font-family: sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
 }
 
-#button-view, #stats-view {
-    padding: 20px;
-    text-align: center; /* Center buttons */
+header {
+    background-color: var(--card-bg);
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.anxiety-button {
-    display: block; /* Make buttons take full width */
-    width: 80%; /* Adjust width as needed */
-    max-width: 400px; /* Max width for larger screens */
-    margin: 15px auto; /* Center buttons horizontally and add vertical space */
-    padding: 20px;
-    font-size: 1.5em; /* Large font size */
-    font-weight: bold;
-    color: white;
-    background-color: red;
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Add gap between nav buttons */
+}
+
+.nav-button { /* Updated class name */
+    background-color: var(--button-bg);
+    color: var(--text-color);
     border: none;
-    border-radius: 10px;
+    padding: 10px 20px;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease; /* Update transition */
-}
-
-.anxiety-button:hover {
-    background-color: darkred;
-}
-
-.anxiety-button:active, .anxiety-button.clicked { /* Apply active styles also to clicked */
-    transform: scale(0.98); /* Slight shrink effect on click */
-    background-color: #ff4d4d; /* Brighter red on click for feedback */
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Optional: add a glow */
-}
-
-/* Style for the navigation buttons */
-nav button {
-    margin: 5px;
-    padding: 10px 15px;
-    font-size: 1em;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
     border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
 }
 
-nav button:hover {
-    background-color: #e0e0e0;
+.nav-button:hover {
+    background-color: var(--button-hover-bg);
 }
 
-/* Style for the active navigation button */
-nav button.active {
-    background-color: #d0d0d0;
+.nav-button.active {
+    background-color: var(--nav-active-bg);
+    color: var(--nav-active-text);
     font-weight: bold;
-    border-color: #bbb;
 }
 
-/* Style for the canvas container */
-#stats-view canvas {
-    max-width: 100%;
-    height: auto;
-    margin-top: 20px;
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
 }
 
-/* Style for filter controls */
-#filter-controls {
-    margin-bottom: 10px; /* Adjusted margin */
+section {
+    background-color: var(--card-bg);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* Style for chart type controls */
-#chart-type-controls {
+h1 {
+    color: var(--primary-color);
+    text-align: center;
     margin-bottom: 20px;
 }
 
-.filter-button, .chart-type-button { /* Apply common styles */
-    margin: 0 5px;
-    padding: 8px 12px;
-    font-size: 0.9em;
+h2 {
+    color: var(--secondary-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 5px;
+    margin-top: 30px;
+}
+
+#anxiety-buttons-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+    gap: 15px; /* Gap between buttons */
+    margin-top: 20px;
+}
+
+.anxiety-button {
+    background-color: var(--primary-color);
+    color: var(--nav-active-text); /* Dark text on primary color */
+    border: none;
+    padding: 15px 20px; /* Larger padding */
     cursor: pointer;
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
+    border-radius: 8px; /* More rounded corners */
+    font-size: 1.1em; /* Slightly larger font */
+    font-weight: bold;
+    text-transform: uppercase; /* Uppercase text */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.anxiety-button:hover {
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.anxiety-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+#last-press-info {
+    text-align: center;
+    color: var(--secondary-color); /* Use accent color */
+    font-style: italic;
+}
+
+/* Stats View Styles */
+#filter-controls, #chart-type-controls {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#filter-controls span, #chart-type-controls span {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.filter-button, .chart-type-button {
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.filter-button:hover, .chart-type-button:hover {
+    background-color: var(--button-hover-bg);
+}
+
+.filter-button.active, .chart-type-button.active {
+    background-color: var(--secondary-color);
+    color: var(--nav-active-text);
+    border-color: var(--secondary-color);
+    font-weight: bold;
+}
+
+#anxietyChart {
+    max-height: 400px; /* Limit chart height */
+    margin-top: 20px;
+    background-color: #333; /* Slightly different bg for chart area */
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/* Settings View Styles */
+#settings-view h2 {
+    margin-bottom: 15px;
+}
+
+#button-editor {
+    margin-bottom: 20px;
+}
+
+.button-editor-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--button-bg);
+    padding: 10px;
+    margin-bottom: 10px;
     border-radius: 5px;
 }
 
-.filter-button:hover, .chart-type-button:hover { /* Apply common styles */
-    background-color: #e0e0e0;
-}
-
-.filter-button.active, .chart-type-button.active { /* Apply common styles */
-    background-color: #d0d0d0;
-    font-weight: bold;
-    border-color: #bbb;
-}
-
-/* Add some spacing for the labels */
-#filter-controls span, #chart-type-controls span {
+.button-editor-item span {
+    flex-grow: 1;
     margin-right: 10px;
-    font-size: 0.9em;
-    color: #555;
 }
 
-/* --- Responsiveness --- */
+.button-editor-item input[type="text"] {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 8px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
 
-@media (max-width: 600px) {
-    body {
-        font-size: 14px; /* Adjust base font size slightly */
-    }
+.edit-button, .delete-button, .save-button, .cancel-button {
+    background-color: var(--secondary-color);
+    color: var(--nav-active-text);
+    border: none;
+    padding: 5px 10px;
+    margin-left: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
 
-    #button-view, #stats-view {
-        padding: 15px; /* Reduce padding */
-    }
+.delete-button {
+    background-color: #cf6679; /* Error/delete color */
+}
 
-    h1 {
-        font-size: 1.8em; /* Adjust heading size */
-    }
+.edit-button:hover, .delete-button:hover, .save-button:hover, .cancel-button:hover {
+    opacity: 0.8;
+}
 
-    .anxiety-button {
-        width: 95%; /* Make buttons wider on small screens */
-        padding: 15px;
-        font-size: 1.3em; /* Slightly smaller font for buttons */
-        margin: 10px auto;
-    }
+#add-button-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
 
-    nav {
-        text-align: center; /* Center nav buttons */
-    }
+#add-button-form input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
 
-    nav button {
-        padding: 8px 12px;
-        font-size: 0.9em;
-        margin: 3px; /* Adjust margin for wrapping */
-    }
+#add-button, #change-name-button {
+    background-color: var(--primary-color);
+    color: var(--nav-active-text);
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
 
-    #filter-controls, #chart-type-controls {
-        text-align: center; /* Center controls */
-    }
+#add-button:hover, #change-name-button:hover {
+    opacity: 0.9;
+}
 
-     #filter-controls span, #chart-type-controls span {
-        display: block; /* Make labels stack */
-        margin-bottom: 5px;
-    }
-
-    .filter-button, .chart-type-button {
-        padding: 6px 10px;
-        font-size: 0.85em;
-        margin: 3px; /* Adjust margin for wrapping */
-    }
-
-    #stats-view canvas {
-        margin-top: 15px;
-    }
+footer {
+    margin-top: 40px;
+    padding: 15px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #aaa; /* Lighter footer text */
+    border-top: 1px solid var(--border-color);
 }
