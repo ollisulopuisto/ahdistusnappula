@@ -82,7 +82,10 @@ h2 {
 
 .anxiety-buttons-container {
   /* Ensure the container allows buttons to be full width if needed */
-  /* e.g., display: flex; flex-wrap: wrap; */
+  display: flex; /* Use flexbox for layout */
+  flex-wrap: wrap; /* Allow buttons to wrap to the next line */
+  /* gap: 10px; */ /* Remove gap property */
+  justify-content: center; /* Center buttons within the container */
 }
 
 .anxiety-button {
@@ -100,13 +103,18 @@ h2 {
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     text-align: center;
+    margin: 5px; /* Add margin around each button */
 }
 
 /* Style for the MUU button specifically */
 .anxiety-button.muu-button {
 /* Or use: .anxiety-button[data-type="MUU"] */
     width: 100%; /* Make the button take the full width */
-    margin-top: 15px; /* Add space above the button */
+    margin-top: 15px; /* Add space above the button (overrides margin: 5px top) */
+    /* Keep left/right/bottom margin from the general rule */
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
     /* flex-basis: 100%; /* If using flexbox */
 }
 
