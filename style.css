@@ -278,14 +278,14 @@ footer {
 /* Updated styles for the cat emoji overlay */
 .cat-overlay {
     position: absolute;
-    top: 2px; /* Adjust vertical position */
-    right: 5px; /* Adjust horizontal position */
+    top: -10px; /* Move further up, outside the button */
+    right: -5px; /* Move further right, outside the button */
     /* Remove transform */
     width: auto; /* Let content determine width */
     height: auto; /* Let content determine height */
     pointer-events: none; /* Make sure the cat doesn't interfere with button clicks */
     z-index: 10; /* Ensure cat is on top */
-    font-size: 2.2em; /* Increase emoji size */
+    font-size: 2.2em; /* Keep increased emoji size */
     line-height: 1; /* Prevent extra spacing */
     /* Optional: Add slight background/padding for visibility */
     /* background-color: rgba(0, 0, 0, 0.2); */
