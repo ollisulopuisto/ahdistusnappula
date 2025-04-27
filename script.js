@@ -189,14 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function addCatToButton(buttonElement) {
         const catOverlay = document.createElement('div');
         catOverlay.className = 'cat-overlay';
+        // Set the text content to a cat emoji
+        catOverlay.textContent = '🐈'; // Or use another cat emoji like 🐱
 
-        const catImage = document.createElement('img');
-        catImage.className = 'cat-image';
-        // Using a placeholder kitten image - replace with your desired cat image URL
-        catImage.src = 'https://placecats.com/50/50';
-        catImage.alt = 'Kissa'; // Alt text for accessibility
-
-        catOverlay.appendChild(catImage);
         buttonElement.appendChild(catOverlay);
     }
 
