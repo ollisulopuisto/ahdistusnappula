@@ -10,4 +10,29 @@ nav button {
 
 #button-view, #stats-view {
     padding: 20px;
+    text-align: center; /* Center buttons */
+}
+
+.anxiety-button {
+    display: block; /* Make buttons take full width */
+    width: 80%; /* Adjust width as needed */
+    max-width: 400px; /* Max width for larger screens */
+    margin: 15px auto; /* Center buttons horizontally and add vertical space */
+    padding: 20px;
+    font-size: 1.5em; /* Large font size */
+    font-weight: bold;
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease; /* Smooth hover effect */
+}
+
+.anxiety-button:hover {
+    background-color: darkred;
+}
+
+.anxiety-button:active {
+    transform: scale(0.98); /* Slight shrink effect on click */
 }

@@ -10,8 +10,8 @@
 
 ## Vaihe 2: Nappinäkymän toteutus
 
-*   [ ] Lisätty ahdistusnapit HTML:ään (`index.html`).
-*   [ ] Muotoiltu napit CSS:llä (`style.css`) spesifikaation mukaisesti (isot, punaiset).
+*   [x] Lisätty ahdistusnapit HTML:ään (`index.html`).
+*   [x] Muotoiltu napit CSS:llä (`style.css`) spesifikaation mukaisesti (isot, punaiset).
 *   [ ] Toteutettu JavaScript-logiikka napin painallusten tallentamiseksi Local Storageen (`script.js`).
     *   [ ] Tapahtumankuuntelijat napeille.
     *   [ ] Datan tallennusfunktio (tyyppi + aikaleima).
