@@ -451,18 +451,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = document.getElementById('anxietyChart').getContext('2d');
         const filteredData = getFilteredData();
 
+        // Get computed styles for chart colors
+        const computedStyle = getComputedStyle(document.documentElement);
+        const textColor = computedStyle.getPropertyValue('--text-color').trim();
+        const borderColor = computedStyle.getPropertyValue('--border-color').trim();
+
+
         if (anxietyChart) {
             anxietyChart.destroy(); // Destroy previous chart instance
         }
 
         if (currentChartType === 'timeline') {
-            renderTimelineChart(ctx, filteredData);
+            // Pass colors to the rendering function
+            renderTimelineChart(ctx, filteredData, textColor, borderColor);
         } else { // 'byType'
-            renderByTypeChart(ctx, filteredData);
+            // Pass colors to the rendering function
+            renderByTypeChart(ctx, filteredData, textColor, borderColor);
         }
     }
 
-    function renderTimelineChart(ctx, data) {
+    // Modify renderTimelineChart to accept textColor and borderColor
+    function renderTimelineChart(ctx, data, textColor, borderColor) {
          // Group data by day and type for timeline view
         const datasets = {};
         const buttonLabels = anxietyButtons.reduce((acc, btn) => {
@@ -523,29 +532,29 @@ document.addEventListener('DOMContentLoaded', () => {
                         title: {
                             display: true,
                             text: 'Aika',
-                            color: textColor // Set title color
+                            color: textColor // Use parameter
                         },
-                        ticks: { color: textColor }, // Style ticks
-                        grid: { color: borderColor } // Style grid lines
+                        ticks: { color: textColor }, // Use parameter
+                        grid: { color: borderColor } // Use parameter
                     },
                     y: {
                         beginAtZero: true,
                         title: {
                             display: true,
                             text: 'Painallusten määrä',
-                            color: textColor // Set title color
+                            color: textColor // Use parameter
                         },
                          ticks: {
-                            color: textColor,
+                            color: textColor, // Use parameter
                             stepSize: 1 // Ensure integer steps for counts
                         },
-                        grid: { color: borderColor }
+                        grid: { color: borderColor } // Use parameter
                     }
                 },
                 plugins: {
                     legend: {
                         position: 'top',
-                        labels: { color: textColor } // Style legend
+                        labels: { color: textColor } // Use parameter
                     },
                     tooltip: {
                         mode: 'index',
@@ -560,8 +569,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 return '';
                             }
                         },
-                        titleColor: textColor, // Set tooltip title color
-                        bodyColor: textColor, // Set tooltip body color
+                        titleColor: textColor, // Use parameter
+                        bodyColor: textColor, // Use parameter
                     }
                 },
                  interaction: { // Improve hover interaction
@@ -584,12 +593,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return 'day';
     }
 
-
-    function renderByTypeChart(ctx, data) {
+    // Modify renderByTypeChart to accept textColor and borderColor
+    function renderByTypeChart(ctx, data, textColor, borderColor) {
         const counts = {};
         const labels = [];
         const chartData = [];
         const backgroundColors = [];
+        const borderColors = []; // Add array for border colors
 
         // Initialize counts for all defined button types to ensure they appear even with 0 count
         anxietyButtons.forEach(btn => {
@@ -613,7 +623,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // if (dataObj.count > 0) { // Uncomment to only show types with presses
                 labels.push(dataObj.label);
                 chartData.push(dataObj.count);
-                backgroundColors.push(getRandomColor(0.7)); // Use semi-transparent colors
+                const bgColor = getRandomColor(0.7); // Use semi-transparent colors
+                backgroundColors.push(bgColor);
+                borderColors.push(bgColor.replace('0.7', '1')); // Make border opaque based on bg
             // }
         });
 
@@ -626,7 +638,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     label: 'Painallukset tyypeittäin',
                     data: chartData,
                     backgroundColor: backgroundColors,
-                    borderColor: backgroundColors.map(c => c.replace('0.7', '1')), // Make border opaque
+                    borderColor: borderColors, // Use generated border colors
                     borderWidth: 1
                 }]
             },
@@ -636,7 +648,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 plugins: {
                     legend: {
                         position: 'top',
-                         labels: { color: textColor } // Style legend
+                         labels: { color: textColor } // Use parameter
                     },
                     tooltip: {
                         callbacks: {
@@ -654,8 +666,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 return label;
                             }
                         },
-                        titleColor: textColor, // Set tooltip title color
-                        bodyColor: textColor, // Set tooltip body color
+                        titleColor: textColor, // Use parameter
+                        bodyColor: textColor, // Use parameter
                     }
                 }
             }
