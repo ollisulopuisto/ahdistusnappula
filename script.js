@@ -130,16 +130,79 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleAnxietyButtonClick(event) {
         const type = event.target.dataset.type;
         const timestamp = new Date().toISOString();
+
+        if (type === 'MUU') {
+            const specificReason = prompt("Mikä muu syy ahdistaa?");
+            if (specificReason && specificReason.trim() !== '') {
+                const newLabel = specificReason.trim().toUpperCase() + " AHDISTAA"; // Standardize label
+                const newId = newLabel.replace(/\s+/g, '_'); // Create ID from label
+
+                // Check if a button with this label already exists
+                const existingButton = anxietyButtons.find(btn => btn.label === newLabel || btn.id === newId);
+
+                if (existingButton) {
+                    // If button exists, log press with its ID
+                    logAnxietyPress(existingButton.id, timestamp);
+                    giveVisualFeedback(event.target); // Give feedback on the 'MUU' button still
+                    alert(`Ahdistus kirjattu olemassa olevalle napille: "${existingButton.label}"`);
+                } else {
+                    // If button doesn't exist, create it
+                    const newButtonData = { id: newId, label: newLabel };
+                    anxietyButtons.push(newButtonData);
+                    saveButtons(); // Save the updated button list
+                    logAnxietyPress(newId, timestamp); // Log press with the NEW ID
+                    renderButtonView(); // Re-render buttons to show the new one
+                    // Find the newly added button element for feedback (optional)
+                    const newButtonElement = anxietyButtonsContainer.querySelector(`[data-type="${newId}"]`);
+                    if (newButtonElement) {
+                         giveVisualFeedback(newButtonElement);
+                    } else {
+                         giveVisualFeedback(event.target); // Fallback feedback on 'MUU' button
+                    }
+                    alert(`Uusi nappi "${newLabel}" lisätty ja ahdistus kirjattu.`);
+                }
+            } else {
+                // User cancelled or entered empty reason, do nothing.
+                console.log("MUU press cancelled or no reason given.");
+                return; // Don't log 'MUU' if no specific reason is provided
+            }
+        } else {
+            // Original logic for non-'MUU' buttons
+            logAnxietyPress(type, timestamp);
+            giveVisualFeedback(event.target);
+        }
+    }
+
+    // Extracted logging and feedback logic into separate functions
+    function logAnxietyPress(type, timestamp) {
         anxietyPresses.push({ type, timestamp });
         localStorage.setItem(STORAGE_KEY_PRESSES, JSON.stringify(anxietyPresses));
         console.log(`Button pressed: ${type} at ${timestamp}`);
-        updateLastPressInfo();
-        // Optional: Add visual feedback
-        event.target.style.backgroundColor = 'var(--secondary-color)';
-        setTimeout(() => {
-            event.target.style.backgroundColor = ''; // Revert color
-        }, 300);
+        updateLastPressInfo(); // Update info based on the actual logged press
     }
+
+    function giveVisualFeedback(buttonElement) {
+         if (!buttonElement) return;
+         // Use CSS variables for colors
+         const originalColor = getComputedStyle(buttonElement).backgroundColor;
+         const feedbackColor = getComputedStyle(document.documentElement).getPropertyValue('--secondary-color').trim();
+
+         buttonElement.style.backgroundColor = feedbackColor;
+         // Add a subtle animation (optional)
+         buttonElement.style.transform = 'scale(0.95)';
+         buttonElement.style.transition = 'transform 0.1s ease-in-out, background-color 0.1s ease-in-out';
+
+
+         setTimeout(() => {
+            buttonElement.style.backgroundColor = ''; // Revert color (back to CSS rule)
+            buttonElement.style.transform = ''; // Revert transform
+            // Remove transition override after animation is done
+             setTimeout(() => {
+                 buttonElement.style.transition = '';
+             }, 150);
+        }, 150); // Duration of the feedback effect
+    }
+
 
     function updateLastPressInfo() {
         if (anxietyPresses.length > 0) {
@@ -275,6 +338,10 @@ document.addEventListener('DOMContentLoaded', () => {
          // If stats view is active, re-render chart with potentially new types
         if (statsView.style.display === 'block') {
             renderChart();
+        }
+        // Also re-render settings view if it's active
+        if (settingsView.style.display === 'block') {
+            renderSettingsView();
         }
     }
 
