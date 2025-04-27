@@ -3,11 +3,6 @@ body {
     font-family: sans-serif;
 }
 
-nav button {
-    margin: 5px;
-    padding: 10px;
-}
-
 #button-view, #stats-view {
     padding: 20px;
     text-align: center; /* Center buttons */
@@ -26,13 +21,36 @@ nav button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.2s ease; /* Smooth hover effect */
+    transition: background-color 0.2s ease, transform 0.1s ease; /* Update transition */
 }
 
 .anxiety-button:hover {
     background-color: darkred;
 }
 
-.anxiety-button:active {
+.anxiety-button:active, .anxiety-button.clicked { /* Apply active styles also to clicked */
     transform: scale(0.98); /* Slight shrink effect on click */
+    background-color: #b30000; /* Slightly darker red on click */
+}
+
+/* Style for the navigation buttons */
+nav button {
+    margin: 5px;
+    padding: 10px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+nav button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Style for the canvas container */
+#stats-view canvas {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
 }

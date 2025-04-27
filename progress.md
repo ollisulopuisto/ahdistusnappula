@@ -12,7 +12,19 @@
 
 *   [x] Lisätty ahdistusnapit HTML:ään (`index.html`).
 *   [x] Muotoiltu napit CSS:llä (`style.css`) spesifikaation mukaisesti (isot, punaiset).
-*   [ ] Toteutettu JavaScript-logiikka napin painallusten tallentamiseksi Local Storageen (`script.js`).
-    *   [ ] Tapahtumankuuntelijat napeille.
-    *   [ ] Datan tallennusfunktio (tyyppi + aikaleima).
-    *   [ ] Palaute käyttäjälle painalluksesta (esim. konsolilogi tai pieni animaatio).
+*   [x] Toteutettu JavaScript-logiikka napin painallusten tallentamiseksi Local Storageen (`script.js`).
+    *   [x] Tapahtumankuuntelijat napeille.
+    *   [x] Datan tallennusfunktio (tyyppi + aikaleima).
+    *   [x] Palaute käyttäjälle painalluksesta (konsolilogi + visuaalinen palaute).
+
+## Vaihe 3: Tilastonäkymän toteutus
+
+*   [x] Lisätty `canvas`-elementti HTML:ään (`index.html`).
+*   [x] Lisätty Chart.js kirjasto (`index.html`).
+*   [x] Toteutettu perusnavigaatio näyttämään/piilottamaan näkymät (`script.js`).
+*   [x] Toteutettu alustava graafin piirto (`script.js`):
+    *   [x] Datan haku Local Storagesta.
+    *   [x] Datan prosessointi (esim. lukumäärät tyypeittäin).
+    *   [x] Graafin piirtäminen Chart.js:llä (pylväsdiagrammi).
+*   [ ] Parannettu graafin visualisointia (esim. aikajananäkymä, suodatus).
+*   [ ] Lisätty mahdollinen tekstimuotoinen yhteenveto tilastoista.
