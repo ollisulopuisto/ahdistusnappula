@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateGreeting();
         } else if (!username) {
             // Handle case where user cancels initial prompt
-            username = "siellä"; // Default fallback
+            username = "sinä"; // Default fallback
             updateGreeting();
         }
     }
