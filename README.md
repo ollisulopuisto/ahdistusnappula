@@ -1,6 +1,6 @@
 # Ahdistusnappula
 
-Ahdistusnappula on yksinkertainen verkkosovellus, joka on suunniteltu auttamaan käyttäjiä kirjaamaan ja seuraamaan ahdistuksen tunteita ja niiden yleisimpiä syitä. Sovelluksen avulla voit helposti merkitä ylös, mikä sinua ahdistaa ja tarkastella tilastoja siitä. 
+Ahdistusnappula on käyttäjän tiedot yksityisenä pitävä pikkuohjelma, jolla voi kirjata muistiin ahdistuksen tunteita.
 
 Sovellus tallentaa kaikki tiedot käyttäjän omaan selaimeen (esim. älypuhelimen selain). Se ei kerro _kenellekään muulle_, mitä käyttäjä on sovellukseen kirjannut.
 
