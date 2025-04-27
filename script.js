@@ -72,6 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 entries = JSON.parse(storedEntries);
                 if (!Array.isArray(entries)) entries = [];
+                // Ensure timestamps are Date objects for sorting
+                entries.forEach(entry => entry.timestamp = new Date(entry.timestamp));
+                // Sort entries by date
+                entries.sort((a, b) => a.timestamp - b.timestamp);
             } catch (e) {
                 console.error("Error parsing stored data for chart:", e);
                 entries = [];
@@ -88,17 +92,26 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // --- Chart Data Preparation (Example: Count by Type) ---
-        const countsByType = entries.reduce((acc, entry) => {
-            acc[entry.type] = (acc[entry.type] || 0) + 1;
+        // --- Chart Data Preparation (Timeline: Count per Day) ---
+        const countsPerDay = entries.reduce((acc, entry) => {
+            // Use toLocaleDateString for consistent local date formatting (YYYY-MM-DD might vary)
+            // Or use a library like date-fns format(entry.timestamp, 'yyyy-MM-dd') if more precision needed
+            const day = entry.timestamp.toISOString().split('T')[0]; // Get YYYY-MM-DD
+            acc[day] = (acc[day] || 0) + 1;
             return acc;
         }, {});
 
-        const labels = Object.keys(countsByType);
-        const data = Object.values(countsByType);
+        // Prepare data points for the chart {x: date, y: count}
+        const dataPoints = Object.keys(countsPerDay).map(day => ({
+            x: day, // Keep as string 'YYYY-MM-DD' for Chart.js time scale
+            y: countsPerDay[day]
+        }));
+
+        // Sort data points by date (important for line chart)
+        dataPoints.sort((a, b) => new Date(a.x) - new Date(b.x));
 
         // --- Calculate and display text summary ---
-        const totalEntries = data.reduce((sum, count) => sum + count, 0);
+        const totalEntries = entries.length; // Simpler way to get total
         const statsSummaryDiv = document.getElementById('stats-summary');
         if (statsSummaryDiv) {
             statsSummaryDiv.textContent = `Yhteensä ${totalEntries} ahdistuspainallusta kirjattu.`;
@@ -113,27 +126,44 @@ document.addEventListener('DOMContentLoaded', () => {
             chartInstance.destroy();
         }
 
-        // Create new chart
+        // Create new chart (Line Chart for Timeline)
         try {
              chartInstance = new Chart(ctx, {
-                type: 'bar', // Example: Bar chart
+                type: 'line', // Change to line chart
                 data: {
-                    labels: labels,
+                    // labels are not needed when data is {x, y} objects
                     datasets: [{
-                        label: 'Ahdistuspainallusten määrä tyypeittäin',
-                        data: data,
-                        backgroundColor: 'rgba(255, 99, 132, 0.6)', // Reddish bars
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
+                        label: 'Ahdistuspainallusten määrä päivittäin',
+                        data: dataPoints, // Use the processed data points
+                        fill: false, // Just the line
+                        borderColor: 'rgb(255, 99, 132)', // Red line
+                        tension: 0.1 // Slight curve to the line
                     }]
                 },
                 options: {
                     scales: {
+                        x: {
+                            type: 'time', // Use time scale
+                            time: {
+                                unit: 'day', // Display units in days
+                                tooltipFormat: 'PP', // Format for tooltips (requires date-fns adapter) e.g., "Aug 2, 2023"
+                                displayFormats: {
+                                    day: 'MMM d' // Format for axis labels e.g., "Aug 2"
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Päivämäärä'
+                            }
+                        },
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                // Ensure only whole numbers are shown on the y-axis
-                                stepSize: 1
+                                stepSize: 1 // Ensure only whole numbers are shown
+                            },
+                            title: {
+                                display: true,
+                                text: 'Painallusten määrä'
                             }
                         }
                     },
@@ -141,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     maintainAspectRatio: true // Adjust as needed
                 }
             });
-            console.log("Chart rendered successfully.");
+            console.log("Chart rendered successfully as a timeline.");
         } catch(e) {
             console.error("Error creating chart:", e);
         }

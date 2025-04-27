@@ -21,10 +21,12 @@
 
 *   [x] Lisätty `canvas`-elementti HTML:ään (`index.html`).
 *   [x] Lisätty Chart.js kirjasto (`index.html`).
+*   [x] Lisätty Chart.js date-fns adapteri (`index.html`).
 *   [x] Toteutettu perusnavigaatio näyttämään/piilottamaan näkymät (`script.js`).
 *   [x] Toteutettu alustava graafin piirto (`script.js`):
     *   [x] Datan haku Local Storagesta.
     *   [x] Datan prosessointi (esim. lukumäärät tyypeittäin).
     *   [x] Graafin piirtäminen Chart.js:llä (pylväsdiagrammi).
-*   [ ] Parannettu graafin visualisointia (esim. aikajananäkymä, suodatus).
+*   [x] Parannettu graafin visualisointia (aikajananäkymä: painallukset per päivä).
+*   [ ] Parannettu graafin visualisointia (suodatusmahdollisuus).
 *   [x] Lisätty mahdollinen tekstimuotoinen yhteenveto tilastoista.
