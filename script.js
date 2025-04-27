@@ -189,8 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function addCatToButton(buttonElement) {
         const catOverlay = document.createElement('div');
         catOverlay.className = 'cat-overlay';
-        // Set the text content to a cat emoji
-        catOverlay.textContent = '🐈'; // Or use another cat emoji like 🐱
+        // Set the text content to a different cat emoji
+        catOverlay.textContent = '🐱'; // Changed from 🐈
 
         buttonElement.appendChild(catOverlay);
     }
