@@ -104,6 +104,18 @@ h2 {
     text-align: center;
 }
 
+/* Style for the MUU button specifically */
+.anxiety-button.muu-button {
+/* Or use: .anxiety-button[data-type="MUU"] */
+    margin-top: 20px; /* Add space above the MUU button */
+    /* Optional: Make it span full width if needed in the grid */
+    /* grid-column: 1 / -1; */
+    /* Optional: Different background or border */
+    /* background-color: var(--button-bg); */
+    /* border: 1px solid var(--primary-color); */
+    /* color: var(--primary-color); */
+}
+
 .anxiety-button:hover {
     transform: translateY(-2px); /* Slight lift effect */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);

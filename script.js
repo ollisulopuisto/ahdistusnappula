@@ -121,17 +121,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remove any existing cat overlays first
         document.querySelectorAll('.cat-overlay').forEach(cat => cat.remove());
 
-        // Create and append buttons
-        anxietyButtons.forEach(buttonData => {
-            const button = document.createElement('button');
-            button.className = 'anxiety-button';
-            button.dataset.type = buttonData.id; // Use ID as type
-            button.textContent = buttonData.label;
-            button.addEventListener('click', handleAnxietyButtonClick);
-            anxietyButtonsContainer.appendChild(button);
+        // Separate the 'MUU' button
+        const otherButtons = anxietyButtons.filter(button => button.id !== 'MUU');
+        const muuButtonData = anxietyButtons.find(button => button.id === 'MUU');
+
+        // Render other buttons
+        otherButtons.forEach(buttonData => {
+            createAndAppendButton(buttonData);
         });
 
-        // --- Add Cat Logic ---
+        // Render the 'MUU' button last if it exists
+        if (muuButtonData) {
+            createAndAppendButton(muuButtonData);
+        }
+
+        // --- Add Cat Logic --- (remains the same, runs after all buttons are in DOM)
         if (anxietyPresses.length > 0) {
             // Calculate frequencies only for currently existing buttons
             const existingButtonIds = new Set(anxietyButtons.map(b => b.id));
@@ -145,11 +149,16 @@ document.addEventListener('DOMContentLoaded', () => {
             let mostFrequentType = null;
             let maxCount = 0;
 
+            // Ensure 'MUU' isn't counted for cat placement if desired, or handle tie-breaking
             for (const type in counts) {
+                 // Optional: Exclude 'MUU' from getting the cat
+                 // if (type === 'MUU') continue;
+
                 if (counts[type] > maxCount) {
                     maxCount = counts[type];
                     mostFrequentType = type;
                 }
+                // Simple tie-breaking: keep the first one found with maxCount
             }
 
             // Find the button element and add the cat
@@ -163,6 +172,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- End Cat Logic ---
     }
 
+    // Helper function to create and append a single button
+    function createAndAppendButton(buttonData) {
+        const button = document.createElement('button');
+        button.className = 'anxiety-button';
+        button.dataset.type = buttonData.id; // Use ID as type
+        button.textContent = buttonData.label;
+        // Add specific class or style if it's the MUU button for CSS targeting
+        if (buttonData.id === 'MUU') {
+            button.classList.add('muu-button'); // Add a class for easier styling
+        }
+        button.addEventListener('click', handleAnxietyButtonClick);
+        anxietyButtonsContainer.appendChild(button);
+    }
+
     function addCatToButton(buttonElement) {
         const catOverlay = document.createElement('div');
         catOverlay.className = 'cat-overlay';
@@ -170,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const catImage = document.createElement('img');
         catImage.className = 'cat-image';
         // Using a placeholder kitten image - replace with your desired cat image URL
-        catImage.src = 'https://placekitten.com/g/50/50';
+        catImage.src = 'https://placecats.com/50/50';
         catImage.alt = 'Kissa'; // Alt text for accessibility
 
         catOverlay.appendChild(catImage);
