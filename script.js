@@ -132,10 +132,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Render the 'MUU' button last if it exists
         if (muuButtonData) {
+            // The createAndAppendButton function already adds the 'muu-button' class
             createAndAppendButton(muuButtonData);
         }
 
-        // --- Add Cat Logic --- (remains the same, runs after all buttons are in DOM)
+        // --- Add Cat Logic ---
+
         if (anxietyPresses.length > 0) {
             // Calculate frequencies only for currently existing buttons
             const existingButtonIds = new Set(anxietyButtons.map(b => b.id));
@@ -178,9 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
         button.className = 'anxiety-button';
         button.dataset.type = buttonData.id; // Use ID as type
         button.textContent = buttonData.label;
-        // Add specific class or style if it's the MUU button for CSS targeting
+        // Add specific class if it's the MUU button for CSS targeting
         if (buttonData.id === 'MUU') {
-            button.classList.add('muu-button'); // Add a class for easier styling
+            button.classList.add('muu-button'); // This class is used for styling
         }
         button.addEventListener('click', handleAnxietyButtonClick);
         anxietyButtonsContainer.appendChild(button);

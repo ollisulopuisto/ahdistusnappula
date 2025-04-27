@@ -80,11 +80,9 @@ h2 {
     margin-top: 30px;
 }
 
-#anxiety-buttons-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
-    gap: 15px; /* Gap between buttons */
-    margin-top: 20px;
+.anxiety-buttons-container {
+  /* Ensure the container allows buttons to be full width if needed */
+  /* e.g., display: flex; flex-wrap: wrap; */
 }
 
 .anxiety-button {
@@ -107,13 +105,9 @@ h2 {
 /* Style for the MUU button specifically */
 .anxiety-button.muu-button {
 /* Or use: .anxiety-button[data-type="MUU"] */
-    margin-top: 20px; /* Add space above the MUU button */
-    /* Optional: Make it span full width if needed in the grid */
-    /* grid-column: 1 / -1; */
-    /* Optional: Different background or border */
-    /* background-color: var(--button-bg); */
-    /* border: 1px solid var(--primary-color); */
-    /* color: var(--primary-color); */
+    width: 100%; /* Make the button take the full width */
+    margin-top: 15px; /* Add space above the button */
+    /* flex-basis: 100%; /* If using flexbox */
 }
 
 .anxiety-button:hover {
