@@ -91,3 +91,55 @@ nav button:hover {
     font-size: 0.9em;
     color: #555;
 }
+
+/* --- Responsiveness --- */
+
+@media (max-width: 600px) {
+    body {
+        font-size: 14px; /* Adjust base font size slightly */
+    }
+
+    #button-view, #stats-view {
+        padding: 15px; /* Reduce padding */
+    }
+
+    h1 {
+        font-size: 1.8em; /* Adjust heading size */
+    }
+
+    .anxiety-button {
+        width: 95%; /* Make buttons wider on small screens */
+        padding: 15px;
+        font-size: 1.3em; /* Slightly smaller font for buttons */
+        margin: 10px auto;
+    }
+
+    nav {
+        text-align: center; /* Center nav buttons */
+    }
+
+    nav button {
+        padding: 8px 12px;
+        font-size: 0.9em;
+        margin: 3px; /* Adjust margin for wrapping */
+    }
+
+    #filter-controls, #chart-type-controls {
+        text-align: center; /* Center controls */
+    }
+
+     #filter-controls span, #chart-type-controls span {
+        display: block; /* Make labels stack */
+        margin-bottom: 5px;
+    }
+
+    .filter-button, .chart-type-button {
+        padding: 6px 10px;
+        font-size: 0.85em;
+        margin: 3px; /* Adjust margin for wrapping */
+    }
+
+    #stats-view canvas {
+        margin-top: 15px;
+    }
+}

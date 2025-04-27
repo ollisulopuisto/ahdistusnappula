@@ -31,3 +31,10 @@
 *   [x] Parannettu graafin visualisointia (suodatusmahdollisuus aikavälille).
 *   [x] Lisätty mahdollisuus vaihtaa graafin tyyppiä (aikajana / tyypeittäin).
 *   [x] Lisätty mahdollinen tekstimuotoinen yhteenveto tilastoista.
+
+## Vaihe 4: UI/UX Parannukset
+
+*   [x] Lisätty perus-footer (`index.html`).
+*   [x] Parannettu responsiivisuutta CSS-mediakyselyillä (`style.css`).
+*   [ ] Lisätty selkeämpi visuaalinen palaute navigaatiossa (esim. aktiivinen tila).
+*   [ ] Harkittu muita UI/UX-parannuksia (esim. latausindikaattori, tyhjän tilan käsittely).
