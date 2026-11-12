@@ -22,7 +22,7 @@ Sovellus koostuu kolmesta päänäkymästä:
 
 ## Käyttöohjeet
 
-1.  **Avaa sovellus:** Siirry sovelluksen osoitteeseen selaimellasi: [Lisää sovelluksen URL tähän, kun se on julkaistu]
+1.  **Avaa sovellus:** Siirry sovelluksen osoitteeseen selaimellasi: <https://ollisulopuisto.github.io/ahdistusnappula/>
 2.  **Nimen asetus:** Ensimmäisellä käyttökerralla sovellus kysyy nimeäsi tervehdystä varten. Voit muuttaa nimen myöhemmin Asetukset-näkymässä.
 3.  **Ahdistuksen kirjaaminen:**
     *   Siirry "Nappulat"-näkymään (oletusnäkymä).
