@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Invalidated in logAnxietyPress whenever a new press is stored.
     let filteredPressesCache = null;
     let cachedFilterRange = null;
+    let cachedFilterDay = null; // the cutoff moves at midnight, so the cache is per calendar day
 
     // --- Initialization ---
 
@@ -259,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // render reflects the updated data
         filteredPressesCache = null;
         cachedFilterRange = null;
+        cachedFilterDay = null;
         console.log(`Button pressed: ${type} at ${timestamp}`);
         updateLastPressInfo(); // Update info based on the actual logged press
     }
@@ -450,7 +452,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Return the cached filter result when the range and the underlying
         // data are unchanged, avoiding a full re-scan + re-date-parse of every
         // press on repeated chart renders.
-        if (filteredPressesCache !== null && cachedFilterRange === currentFilterRange) {
+        if (filteredPressesCache !== null && cachedFilterRange === currentFilterRange &&
+            cachedFilterDay === new Date().toDateString()) {
             return filteredPressesCache;
         }
 
@@ -467,6 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = anxietyPresses.filter(press => new Date(press.timestamp) >= cutoffDate);
         filteredPressesCache = result;
         cachedFilterRange = currentFilterRange;
+        cachedFilterDay = new Date().toDateString();
         return result;
     }
 
@@ -475,7 +479,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // means nothing changed since the last render (e.g. re-opening the
         // stats view or re-clicking the active filter).
         const lastPress = anxietyPresses[anxietyPresses.length - 1];
-        const dataSignature = `${anxietyPresses.length}|${lastPress ? lastPress.timestamp : '-'}`;
+        const dataSignature = `${anxietyPresses.length}|${lastPress ? lastPress.timestamp : '-'}|${new Date().toDateString()}`;
         if (
             anxietyChart &&
             anxietyChart._renderRange === currentFilterRange &&
