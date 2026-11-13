@@ -33,6 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFilterRange = 'all'; // '7', '30', 'all'
     let currentChartType = 'timeline'; // 'timeline', 'byType'
 
+    // Cache for the filtered press set per time range. Re-rendering the chart
+    // (re-opening the stats view, re-clicking a filter, saving settings) would
+    // otherwise re-scan and re-date-parse the whole press history every time.
+    // Invalidated in logAnxietyPress whenever a new press is stored.
+    let filteredPressesCache = null;
+    let cachedFilterRange = null;
+    let cachedFilterDay = null; // the cutoff moves at midnight, so the cache is per calendar day
+
     // --- Initialization ---
 
     function init() {
@@ -248,6 +256,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function logAnxietyPress(type, timestamp) {
         anxietyPresses.push({ type, timestamp });
         localStorage.setItem(STORAGE_KEY_PRESSES, JSON.stringify(anxietyPresses));
+        // New press invalidates the filtered-data cache so the next chart
+        // render reflects the updated data
+        filteredPressesCache = null;
+        cachedFilterRange = null;
+        cachedFilterDay = null;
         console.log(`Button pressed: ${type} at ${timestamp}`);
         updateLastPressInfo(); // Update info based on the actual logged press
     }
@@ -436,6 +449,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getFilteredData() {
+        // Return the cached filter result when the range and the underlying
+        // data are unchanged, avoiding a full re-scan + re-date-parse of every
+        // press on repeated chart renders.
+        if (filteredPressesCache !== null && cachedFilterRange === currentFilterRange &&
+            cachedFilterDay === new Date().toDateString()) {
+            return filteredPressesCache;
+        }
+
         const now = new Date();
         let cutoffDate = new Date(0); // Beginning of time for 'all'
 
@@ -446,10 +467,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         cutoffDate.setHours(0, 0, 0, 0); // Start of the day
 
-        return anxietyPresses.filter(press => new Date(press.timestamp) >= cutoffDate);
+        const result = anxietyPresses.filter(press => new Date(press.timestamp) >= cutoffDate);
+        filteredPressesCache = result;
+        cachedFilterRange = currentFilterRange;
+        cachedFilterDay = new Date().toDateString();
+        return result;
     }
 
     function renderChart() {
+        // Skip redundant rebuilds: same filter range, chart type and data
+        // means nothing changed since the last render (e.g. re-opening the
+        // stats view or re-clicking the active filter).
+        const lastPress = anxietyPresses[anxietyPresses.length - 1];
+        const dataSignature = `${anxietyPresses.length}|${lastPress ? lastPress.timestamp : '-'}|${new Date().toDateString()}`;
+        if (
+            anxietyChart &&
+            anxietyChart._renderRange === currentFilterRange &&
+            anxietyChart._renderType === currentChartType &&
+            anxietyChart._dataSignature === dataSignature
+        ) {
+            return;
+        }
+
         const ctx = document.getElementById('anxietyChart').getContext('2d');
         const filteredData = getFilteredData();
 
@@ -457,7 +496,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const computedStyle = getComputedStyle(document.documentElement);
         const textColor = computedStyle.getPropertyValue('--text-color').trim();
         const borderColor = computedStyle.getPropertyValue('--border-color').trim();
-
 
         if (anxietyChart) {
             anxietyChart.destroy(); // Destroy previous chart instance
@@ -469,6 +507,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } else { // 'byType'
             // Pass colors to the rendering function
             renderByTypeChart(ctx, filteredData, textColor, borderColor);
+        }
+
+        // Remember what this chart instance renders so the next renderChart()
+        // call can skip the rebuild when nothing changed
+        if (anxietyChart) {
+            anxietyChart._renderRange = currentFilterRange;
+            anxietyChart._renderType = currentChartType;
+            anxietyChart._dataSignature = dataSignature;
         }
     }
 
