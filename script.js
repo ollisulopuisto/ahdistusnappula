@@ -467,7 +467,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         cutoffDate.setHours(0, 0, 0, 0); // Start of the day
 
-        const result = anxietyPresses.filter(press => new Date(press.timestamp) >= cutoffDate);
+        // Compare ISO timestamps as strings instead of parsing a Date per press.
+        // ISO 8601 strings sort lexicographically in chronological order, and both
+        // sides are UTC (press.timestamp is stored via toISOString();
+        // cutoffDate.toISOString() is the UTC instant of local midnight), so this is
+        // equivalent to `new Date(press.timestamp) >= cutoffDate` while avoiding one
+        // Date construction per press on every cache miss (new day, filter change,
+        // new press invalidates the cache).
+        const cutoffISO = cutoffDate.toISOString();
+        const result = anxietyPresses.filter(press => press.timestamp >= cutoffISO);
         filteredPressesCache = result;
         cachedFilterRange = currentFilterRange;
         cachedFilterDay = new Date().toDateString();
